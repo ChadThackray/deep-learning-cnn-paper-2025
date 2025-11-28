@@ -89,8 +89,8 @@ Use this for implementing purged k-fold CV during training.
 
 ## Labels
 
-- **up**: Next day's close is higher than the current day's close
-- **down**: Next day's close is lower than or equal to the current day's close
+- **up**: Next candle is green (next close ≥ next open)
+- **down**: Next candle is red (next close < next open)
 
 ---
 

@@ -32,9 +32,9 @@ class SampleMetadata:
     filename: str
 
 
-def determine_label(current_close: float, next_close: float) -> str:
-    """Determine label based on whether next day's close is higher than current close."""
-    return "up" if next_close > current_close else "down"
+def determine_label(next_open: float, next_close: float) -> str:
+    """Determine label based on whether next candle is bullish (green)."""
+    return "up" if next_close >= next_open else "down"
 
 
 def generate_samples_for_ticker(
@@ -60,10 +60,11 @@ def generate_samples_for_ticker(
 
     for i in range(len(df) - config.window_size):
         window = df.iloc[i : i + config.window_size]
-        current_close = float(window.iloc[-1]["close"])
-        next_close = float(df.iloc[i + config.window_size]["close"])
+        next_candle = df.iloc[i + config.window_size]
+        next_open = float(next_candle["open"])
+        next_close = float(next_candle["close"])
 
-        label = determine_label(current_close, next_close)
+        label = determine_label(next_open, next_close)
         end_date_str = str(window.index[-1].date())
 
         filename = f"{ticker}_{end_date_str}_w{config.window_size}_s{config.image_size}_{i}.png"
