@@ -1,0 +1,27 @@
+[project]
+name = "candlestick-cnn"
+version = "0.1.0"
+description = "Generate candlestick chart images and classify with CNN"
+requires-python = ">=3.10"
+dependencies = [
+    "pillow>=10.0.0",
+    "yfinance>=0.2.0",
+    "pandas>=2.0.0",
+    "torch>=2.0.0",
+    "scikit-learn>=1.0.0",
+]
+
+[project.scripts]
+chart-generator = "chart_generator.cli:main"
+cnn-classifier = "cnn_classifier.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/chart_generator", "src/cnn_classifier"]
+
+[tool.pyright]
+pythonVersion = "3.10"
+typeCheckingMode = "strict"
