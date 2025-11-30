@@ -20,13 +20,15 @@ from cnn_classifier.model import CandlestickCNN
 
 
 class ShuffledLabelDataset(Dataset):
-    """Wrapper that shuffles labels randomly."""
+    """Wrapper that permutes existing labels randomly."""
 
     def __init__(self, base_dataset: CandlestickDataset, seed: int = 42):
         self.base_dataset = base_dataset
-        # Create shuffled label mapping
+        # Extract real labels and shuffle them
+        real_labels = [base_dataset[i][1].item() for i in range(len(base_dataset))]
         random.seed(seed)
-        self.shuffled_labels = [random.randint(0, 1) for _ in range(len(base_dataset))]
+        random.shuffle(real_labels)
+        self.shuffled_labels = real_labels
 
     def __len__(self) -> int:
         return len(self.base_dataset)
