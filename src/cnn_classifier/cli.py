@@ -30,9 +30,17 @@ def cmd_train(args: argparse.Namespace) -> None:
         data_dir, train_cutoff, val_cutoff
     )
 
-    print(f"Train samples: {len(train_dataset)}")
+    # Print sample counts and label distribution
+    train_labels = [train_dataset[i][1].item() for i in range(len(train_dataset))]
+    train_up = sum(train_labels)
+    train_down = len(train_labels) - train_up
+    print(f"Train samples: {len(train_dataset)} ({train_up} up, {train_down} down)")
+
     if val_dataset is not None:
-        print(f"Val samples: {len(val_dataset)}")
+        val_labels = [val_dataset[i][1].item() for i in range(len(val_dataset))]
+        val_up = sum(val_labels)
+        val_down = len(val_labels) - val_up
+        print(f"Val samples: {len(val_dataset)} ({val_up} up, {val_down} down)")
 
     train_loader = DataLoader(
         train_dataset,
